@@ -29,8 +29,19 @@ class HelloWordle:
         self.test = [(name, len(name)) for name in self.clean_names if name[0] == "c"]
         print(f"\n{self.test}")
 
+    def choose_word(self):
+        """
+        Selects a random word from the loaded word list.
+        :return: a hidden random "chosen" word in dashes instead of letters.
+        """
+        import random
+        random.seed(115)  # Lock randomness for testing
+        self.secret_word = random.choice(self.clean_names)
+        print(f"Testing - {self.secret_word}")  # Print the word for testing
+
 
 game = HelloWordle()
-
+game.load_words("week1_pokemon.txt")
+game.choose_word()
 
 
