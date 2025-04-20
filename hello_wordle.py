@@ -1,27 +1,47 @@
-# Open file and automatically close it when done
-import random
+# This is a Wordle-like game blueprint
 
-with open("week1_pokemon.txt") as f:
-    # Read the entire file into one long string
-    contents = f.read()
+class HelloWordle:
+    """
+    A Wordle-style game using different themes such as Pokemon names.
+    Handles loading, cleaning, and selecting a secret word.
+    """
+    def __init__(self):
+        pass
 
-# Show all content
-print(contents)
+    def load_words(self, file_path):
+        """
+        Loads words from a given file, cleans and stores them
+        :param file_path: theme specific
+        :return: list of iterable words/name in lowercase
+        """
+        with open(file_path) as f:
+            # Read the entire file into one long string
+            contents = f.read()
 
-# Split the Pokemon names ad delimiter ","
-all_pokemon = (contents.split(","))
-print(all_pokemon[1].title().strip()) # Print output for testing
+        raw_names = (contents.split(","))
 
-# Create new list to store Cleaned Pokemon names
-clean_names = []
+        # Loop through the list and clean each name and append to "clean_names" list
+        self.clean_names = [name.lower().strip() for name in raw_names]
 
-# Loop through the list and clean each name and append to "clean_names" list
-for name in all_pokemon:
-    name = name.upper().strip()
-    clean_names.append(name)
-    print(f"<{name}>") # Print to test
+        print(f"\n{self.clean_names[:5]}")  # Print to test
 
-# Let Computer choose a random word
-random.seed(115) #Seed the randomness for repetition
-secret_word = random.choice(clean_names)
-print(secret_word) #Print the word for testing
+        # KNOWLEDGE TEST : The lengths of all Pokémon names in self.clean_names, but only if the name starts with the letter “c”?
+        self.test = [(name, len(name)) for name in self.clean_names if name[0] == "c"]
+        print(f"\n{self.test}")
+
+    def choose_word(self):
+        """
+        Selects a random word from the loaded word list.
+        :return: a hidden random "chosen" word in dashes instead of letters.
+        """
+        import random
+        random.seed(115)  # Lock randomness for testing
+        self.secret_word = random.choice(self.clean_names)
+        print(f"Testing - {self.secret_word}")  # Print the word for testing
+
+
+game = HelloWordle()
+game.load_words("week1_pokemon.txt")
+game.choose_word()
+
+
