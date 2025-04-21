@@ -47,13 +47,47 @@ class HelloWordle:
         progress = [letter if letter in guessed_letters else "_" for letter in word]
         print(" ".join(progress))
 
-
-
+    def play_game(self):
+        """
+        Runs the main game loop for HelloWordle.
+        This method:
+        - Initializes a list of guessed letters and turn counter.
+        - Repeatedly displays word progress and asks for user input.
+        - Validates input and prevents duplicate guesses.
+        - Reveals letters based on correct guesses.
+        - Ends the game when the full word is revealed.
+        :return: None – prints progress and result to the console.
+        """
+        guessed_letters = []
+        turns = 0
+        while not all(letter in guessed_letters for letter in self.secret_word):
+            print()
+            print("*" * 30)
+            print(f"Turn: {turns}\n")
+            self.display_word(self.secret_word, guessed_letters)
+            print(f"\nLetters guessed: {guessed_letters}")
+            valid_guess = False
+            while not valid_guess:
+                guess = input("Guess a letter: ").lower().strip()
+                if len(guess) != 1:
+                    print("Too many characters")
+                elif not guess.isalpha():
+                    print("Invalid input. Please enter a letter from A-Z.")
+                elif guess in guessed_letters:
+                    print("You already guessed that letter")
+                else:
+                    valid_guess = True
+                    guessed_letters.append(guess)
+                    turns += 1
+        else:
+            # Game complete message
+            print("\nCongratulations! You guessed the word correctly 🎉")
+            print(f"The word was: '{(self.secret_word).upper()}'")
+            print(f"It took you {turns} turns.")
 
 
 game = HelloWordle()
 game.load_words("week1_pokemon.txt")
 game.choose_word()
-guesses = ["c", "t", "l"]
-game.display_word(game.secret_word, guesses)
+game.play_game()
 
