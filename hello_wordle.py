@@ -10,9 +10,9 @@ class HelloWordle:
 
     def load_words(self, file_path):
         """
-        Loads words from a given file, cleans and stores them
-        :param file_path: theme specific
-        :return: list of iterable words/name in lowercase
+        Loads and cleans word data from a text file.
+        :param file_path: The path to the text file containing a comma-separated list of words.
+        :return: None – stores a cleaned list of lowercase words in self.clean_names.
         """
         with open(file_path) as f:
             # Read the entire file into one long string
@@ -22,12 +22,9 @@ class HelloWordle:
 
         # Loop through the list and clean each name and append to "clean_names" list
         self.clean_names = [name.lower().strip() for name in raw_names]
-
-        print(f"\n{self.clean_names[:5]}")  # Print to test
-
         # KNOWLEDGE TEST : The lengths of all Pokémon names in self.clean_names, but only if the name starts with the letter “c”?
-        self.test = [(name, len(name)) for name in self.clean_names if name[0] == "c"]
-        print(f"\n{self.test}")
+        # self.test = [(name, len(name)) for name in self.clean_names if name[0] == "c"]
+
 
     def choose_word(self):
         """
@@ -39,9 +36,24 @@ class HelloWordle:
         self.secret_word = random.choice(self.clean_names)
         print(f"Testing - {self.secret_word}")  # Print the word for testing
 
+    def display_word(self, word, guessed_letters):
+        """
+        Displays the current progress of the guessed word.
+        :param word: The full secret word that the player is trying to guess.
+        :param guessed_letters: A list of letters that have been guessed so far.
+        :return: None - prints the word with the guessed letters revealed and
+                 others hidden as "_"
+        """
+        progress = [letter if letter in guessed_letters else "_" for letter in word]
+        print(" ".join(progress))
+
+
+
+
 
 game = HelloWordle()
 game.load_words("week1_pokemon.txt")
 game.choose_word()
-
+guesses = ["c", "t", "l"]
+game.display_word(game.secret_word, guesses)
 
